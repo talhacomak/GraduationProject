@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, json
 import psycopg2 as dbapi2
 from configurations import db_url
 from passlib.hash import pbkdf2_sha256 as hasher
@@ -38,7 +38,7 @@ def login():
                         return redirect(url_for("admin_page"))
                     else: ###################################### hatalı şifre
                         render_template("login.html")
-                else: # doctor
+                else: # user
                     if hasher.verify(passw, record[2]):
                         session["is_doctor"] = "yes"
                         return render_template('doctor.html', display="none")
@@ -71,6 +71,11 @@ def register():
         return redirect(url_for("login"))
     return render_template("register.html")
 
+@app.route("/save_leads", methods=["GET", "POST"])
+def save_leads():
+    result = request.json('x')
+    result = json.loads(result)
+    print(result)
 
 if __name__ == "__main__":
     app.run()

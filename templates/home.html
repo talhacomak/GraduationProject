@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block TITLE %}
+HOME
+{% endblock %}
+	
+ {% block body %}   
+ 
+<body>
+    <table width="100%">
+        <tr>
+            <td style="padding: 0px 10px 0px 200px; margin-left:400px"><h1 align = "Center"><b>Music Composition Generator</b>  </h1></td>
+            <td style="padding: 0px 10px 0px 0px" position="absolute" top="5px" right="5px" align="right">
+            <ul class="no-bullets">
+                <li style="padding: 20px 10px 0px 10px"> <p align="left"> <b> For more features: </b>  </p></li>
+                <li style="padding: 0px 10px 5px 10px"><a href="/login" class="btn form-control btn-success">Login</a></li>
+                <li style="padding: 0px 10px 10px 10px"><a href="/register" class="btn form-control btn-primary">Register</a></li>
+            </ul>
+        </td>
+        </tr>
+    </table>
+
+    <table id="musics" >
+      <tr>
+        <th>
+            <div justify-content="center">
+                <label for="sortby">sort by</label> <br/>
+                <select name="sortby" id="sortby" placeholder="newest">
+                    <option value="1">newest</option>
+                    <option value="2">oldest</option>
+                </select>
+            </div>
+        </th>
+        <th><label for="genre" id="expiry_m">genre</label> <br/>
+            <select name="genre" id="genre" placeholder="all">
+                <option value="1">all</option>
+                <option value="2">classical</option>
+            </select>
+        </th>
+        <th></th>
+      </tr>
+    </table>
+
+
+<!-- Latest compiled and minified JavaScript-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!--<script src="jquery-3.5.1.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var $musicTable = $('#musics');
+
+        var piano_list = 'http://127.0.0.1:8887/audio/bet-9-gitar.wav,http://127.0.0.1:8887/audio/bet-9-piyano.wav';
+        var guitar_list = ''
+        var substr = piano_list.split(',');
+
+        var content = ""
+        for(i=0; i<substr.length; ++i){
+            content += `<tr><td> <p>${substr[i]}</p>
+            <audio controls><source id=\"${i}\" src=\"${substr[i]}\" type=\"audio/wav\" />
+            Your browser does not support the audio element.
+            </audio>
+            </td><td><p><label>select the instrument type</label> <br/>
+            <select id=\"${i}s\" placeholder="piano">
+                <option value="1">piano</option>
+                <option value="2">guitar</option>
+            </select>
+            </p><br/></td><td><p>rate it</td></p></tr>`;
+        }
+        $('#musics tr:last').after(content);
+
+
+        function MinPecas(str){
+            if (this.value === '1'){
+                y = JSON.stringify(str.currentTarget.myParam);
+                $.post("/save_leads", {x:y}).done(function() {}).fail(function(e) { console.log(e);})
+                alert(str.currentTarget.myParam);
+            }
+            if (this.value === '2'){
+                y = JSON.stringify(str.currentTarget.myParam);
+                $.post("/save_leads", {x:y}).done(function() {}).fail(function(e) { console.log(e); })
+                alert(str.currentTarget.myParam);
+            }
+        }
+
+        var someInput;
+        for(i=0; i<substr.length; ++i){
+            someInput = document.getElementById(i.toString() + "s");
+            someInput.myParam = i.toString();
+            someInput.addEventListener('change', MinPecas, false);
+        }
+
+    });
+</script>
+</body>
+{% endblock %}

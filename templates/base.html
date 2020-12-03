@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block TITLE %} BASE {% endblock %}</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <style>
+         ul.no-bullets {
+          list-style-type: none; /* Remove bullets */
+          padding: 0; /* Remove padding */
+          margin: 0; /* Remove margins */
+        }
+        #musics {
+            padding: 10px 10px 10px 10px;
+            align: center;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+        }
+
+        #musics td, #customers th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+
+        #musics tr:nth-child(even){background-color: #f2f2f2;}
+
+        #musics tr:hover {background-color: #ddd;}
+
+        #musics th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #36304a;
+          color: white;
+        }
+    </style>
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <a class="nav-link" href="https://music-composition-generator.herokuapp.com/">Music Composition Generator<span
+                class="sr-only">(current)</span></a>
+    </div>
+
+    <div margin="center">
+        <a aria-disabled="true" class="nav-link disabled" href="#" tabindex="-1">ITU-2020</a>
+    </div>
+
+    <div aria-label="navbarDropdown" float="right">
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
+           id="navbarDropdown" role="button">
+            User
+        </a>
+        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+            <a class="dropdown-item" href="https://music-composition-generator.herokuapp.com/settings">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="https://music-composition-generator.herokuapp.com/">Exit</a>
+        </div>
+    </div>
+
+</nav>
+
+{% block body %}
+
+{% endblock %}
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
