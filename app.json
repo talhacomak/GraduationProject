@@ -3,5 +3,8 @@
     {
       "plan": "heroku-postgresql"
     }
-  ]
+  ],
+  "scripts": {
+    "postinstall": "ng build"
+  }
 }
