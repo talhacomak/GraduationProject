@@ -39,6 +39,25 @@
           background-color: #36304a;
           color: white;
         }
+
+        .dropdown {
+          position: relative;
+          display: inline-block;
+        }
+
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          padding: 12px 16px;
+          z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
     </style>
     <!-- Bootstrap CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -57,12 +76,12 @@
         <a aria-disabled="true" class="nav-link disabled" href="#" tabindex="-1">ITU-2020</a>
     </div>
 
-    <div aria-label="navbarDropdown" float="right">
+    <div aria-label="navbarDropdown" float="right" class="dropdown">
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
            id="navbarDropdown" role="button">
             User
         </a>
-        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+        <div aria-labelledby="navbarDropdown" class="dropdown-content">
             <a class="dropdown-item" href="https://music-composition-generator.herokuapp.com/settings">Settings</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="https://music-composition-generator.herokuapp.com/">Exit</a>

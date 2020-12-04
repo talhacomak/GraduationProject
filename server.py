@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 INIT_STATEMENTS = [
+"CREATE TABLE IF NOT EXISTS USERS(ID SERIAL PRIMARY KEY, USERNAME VARCHAR(255), PASSWORD VARCHAR(255), MAIL VARCHAR(255), ISADMIN BOOL DEFAULT FALSE)"
 ]
 
 with dbapi2.connect(db_url) as connection:
@@ -44,7 +45,7 @@ def login():
                         return render_template('doctor.html', display="none")
                     else:  ###################################### hatalı şifre
                         render_template("login.html")
-    return render_template("login.html")
+    return render_template("home.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -69,7 +70,7 @@ def register():
         else:
             return render_template("register.html")
         return redirect(url_for("login"))
-    return render_template("register.html")
+    return render_template("home.html")
 
 @app.route("/save_leads", methods=["GET", "POST"])
 def save_leads():

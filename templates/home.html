@@ -49,15 +49,16 @@ HOME
 <script>
     $(document).ready(function () {
         var $musicTable = $('#musics');
-
-        var piano_list = 'http://127.0.0.1:8887/audio/bet-9-gitar.wav,http://127.0.0.1:8887/audio/bet-9-piyano.wav';
-        var guitar_list = ''
+        var port = 'http://127.0.0.1:8887/audio/';
+        var piano_list = 'Mozart - The Blackstone Stick.wav,bet-9-piyano.wav';
+        var guitar_list = 'Mozart - The Blackstone Stick-guitar.wav,bet-9-gitar.wav'
         var substr = piano_list.split(',');
+        var substr2 = guitar_list.split(',');
 
         var content = ""
         for(i=0; i<substr.length; ++i){
             content += `<tr><td> <p>${substr[i]}</p>
-            <audio controls><source id=\"${i}\" src=\"${substr[i]}\" type=\"audio/wav\" />
+            <audio id=\"${i}a\" controls><source id=\"${i}\" src=\"${substr[i]}\" type=\"audio/wav\" />
             Your browser does not support the audio element.
             </audio>
             </td><td><p><label>select the instrument type</label> <br/>
@@ -69,17 +70,20 @@ HOME
         }
         $('#musics tr:last').after(content);
 
-
         function MinPecas(str){
             if (this.value === '1'){
-                y = JSON.stringify(str.currentTarget.myParam);
-                $.post("/save_leads", {x:y}).done(function() {}).fail(function(e) { console.log(e);})
-                alert(str.currentTarget.myParam);
+                var i = parseInt(str.currentTarget.myParam);
+                var source = document.getElementById(i.toString());
+                var audio = document.getElementById(i.toString() + 'a');
+                source.src =  substr[i];
+                audio.load();
             }
             if (this.value === '2'){
-                y = JSON.stringify(str.currentTarget.myParam);
-                $.post("/save_leads", {x:y}).done(function() {}).fail(function(e) { console.log(e); })
-                alert(str.currentTarget.myParam);
+                var i = parseInt(str.currentTarget.myParam);
+                var source = document.getElementById(i.toString());
+                var audio = document.getElementById(i.toString() + 'a');
+                source.src = substr2[i];
+                audio.load();
             }
         }
 
