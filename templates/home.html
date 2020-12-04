@@ -49,7 +49,8 @@ HOME
 <script>
     $(document).ready(function () {
         var $musicTable = $('#musics');
-        var port = 'http://127.0.0.1:8887/audio/';
+        //var port = 'http://127.0.0.1:8887/audio/';
+        var port = 'audio/';
         var piano_list = 'Mozart - The Blackstone Stick.wav,bet-9-piyano.wav';
         var guitar_list = 'Mozart - The Blackstone Stick-guitar.wav,bet-9-gitar.wav'
         var substr = piano_list.split(',');
@@ -58,7 +59,7 @@ HOME
         var content = ""
         for(i=0; i<substr.length; ++i){
             content += `<tr><td> <p>${substr[i]}</p>
-            <audio id=\"${i}a\" controls><source id=\"${i}\" src=\"${substr[i]}\" type=\"audio/wav\" />
+            <audio id=\"${i}a\" controls><source id=\"${i}\" src=\"${port}${substr[i]}\" type=\"audio/wav\" />
             Your browser does not support the audio element.
             </audio>
             </td><td><p><label>select the instrument type</label> <br/>
@@ -75,14 +76,14 @@ HOME
                 var i = parseInt(str.currentTarget.myParam);
                 var source = document.getElementById(i.toString());
                 var audio = document.getElementById(i.toString() + 'a');
-                source.src =  substr[i];
+                source.src = port + substr[i];
                 audio.load();
             }
             if (this.value === '2'){
                 var i = parseInt(str.currentTarget.myParam);
                 var source = document.getElementById(i.toString());
                 var audio = document.getElementById(i.toString() + 'a');
-                source.src = substr2[i];
+                source.src = port + substr2[i];
                 audio.load();
             }
         }
