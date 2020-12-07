@@ -6,20 +6,43 @@ from passlib.hash import pbkdf2_sha256 as hasher
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
-INIT_STATEMENTS = [
-"CREATE TABLE IF NOT EXISTS USERS(ID SERIAL PRIMARY KEY, USERNAME VARCHAR(255), PASSWORD VARCHAR(255), MAIL VARCHAR(255), ISADMIN BOOL DEFAULT FALSE)"
-]
+def queryToString(s):
+    str1 = ""
+    for e in s:
+        str1 += e[0]
+        str1 += ','
+    return str1[:-1]
 
-with dbapi2.connect(db_url) as connection:
-    cursor = connection.cursor()
-    for statement in INIT_STATEMENTS:
-        cursor.execute(statement)
-    cursor.close()
+def queryIntToString(s):
+    str1 = ""
+    for e in s:
+        str1 += str(e[0]);
+        str1 += ','
+    return str1[:-1]
 
 @app.route("/")
 @app.route("/Exit/",  methods=['GET', 'POST'])
 def home_page():
-    return render_template('home.html')
+    state = "SELECT ALL SONG FROM MUSICS"
+    with dbapi2.connect(db_url) as connection:
+        cursor = connection.cursor()
+        cursor.execute(state)
+        songs = cursor.fetchall()
+        cursor.close()
+    state = "SELECT ALL GENRE FROM MUSICS"
+    with dbapi2.connect(db_url) as connection:
+        cursor = connection.cursor()
+        cursor.execute(state)
+        genres = cursor.fetchall()
+        cursor.close()
+
+    state = "SELECT ALL SCORE FROM MUSICS"
+    with dbapi2.connect(db_url) as connection:
+        cursor = connection.cursor()
+        cursor.execute(state)
+        scores = cursor.fetchall()
+        cursor.close()
+    return render_template('home.html', songs=queryToString(songs), genres=queryToString(genres), scores=queryIntToString(scores))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

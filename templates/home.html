@@ -31,8 +31,8 @@ HOME
                 </select>
             </div>
         </th>
-        <th><label for="genre" id="expiry_m">genre</label> <br/>
-            <select name="genre" id="genre" placeholder="all">
+        <th><label for="by_genre" id="expiry_m">genre</label> <br/>
+            <select name="by_genre" id="by_genre" placeholder="all">
                 <option value="1">all</option>
                 <option value="2">classical</option>
             </select>
@@ -41,6 +41,9 @@ HOME
       </tr>
     </table>
 
+    <input type="hidden" id="songs" name="songs" value="{{ songs }}">
+    <input type="hidden" id="genres" name="genres" value="{{ genres }}">
+    <input type="hidden" id="scores" name="scores" value="{{ scores }}">
 
 <!-- Latest compiled and minified JavaScript-->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -50,40 +53,63 @@ HOME
     $(document).ready(function () {
         var $musicTable = $('#musics');
         //var port = 'http://127.0.0.1:8887/audio/';
-        var port = 'static/audio/';
-        var piano_list = 'Mozart - The Blackstone Stick.wav,bet-9-piyano.wav';
-        var guitar_list = 'Mozart - The Blackstone Stick-guitar.wav,bet-9-gitar.wav'
-        var substr = piano_list.split(',');
-        var substr2 = guitar_list.split(',');
 
-        var content = ""
-        for(i=0; i<substr.length; ++i){
-            content += `<tr><td> <p>${substr[i]}</p>
-            <audio id=\"${i}a\" controls><source id=\"${i}\" src=\"${port}${substr[i]}\" type=\"audio/wav\" />
-            Your browser does not support the audio element.
-            </audio>
-            </td><td><p><label>select the instrument type</label> <br/>
-            <select id=\"${i}s\" placeholder="piano">
-                <option value="1">piano</option>
-                <option value="2">guitar</option>
-            </select>
-            </p><br/></td><td><p>rate it</td></p></tr>`;
+        var songs = document.getElementById("songs").value;
+        var genres = document.getElementById("genres").value;
+        var scores = document.getElementById("scores").value;
+
+        var port = 'static/audio/';
+        var substr = songs.split(',');
+        var genreSub = genres.split(',');
+        var scoreSub = scores.split(',');
+
+        var totalLen = substr.length;
+
+        function start(){
+            var content = "";
+            for(i=0; i<substr.length; ++i){
+                content += `<tr><td> <p id =\"${i}_name\">${substr[i]}</p> <p id=\"${i}_genre\"> ${genreSub[i]} </p>
+                <audio id=\"${i}a\" controls><source id=\"${i}\" src=\"${port}${substr[i]}-piyano.wav\" type=\"audio/wav\" />
+                Your browser does not support the audio element.
+                </audio>
+                </td><td><p><label>select the instrument type</label> <br/>
+                <select id=\"${i}s\" placeholder="piano">
+                    <option value="1">piano</option>
+                    <option value="2">guitar</option>
+                </select>
+                </p><br/></td><td><p>rate it</td></p></tr>`;
+            }
+            $('#musics tr:last').after(content);
         }
-        $('#musics tr:last').after(content);
+        start();
+
+        function add_elements(i){
+            var content = `<tr><td> <p id =\"${i}_name\">${substr[i]}</p> <p id=\"${i}_genre\"> ${genreSub[i]} </p>
+                <audio id=\"${i}a\" controls><source id=\"${i}\" src=\"${port}${substr[i]}-piyano.wav\" type=\"audio/wav\" />
+                Your browser does not support the audio element.
+                </audio>
+                </td><td><p><label>select the instrument type</label> <br/>
+                <select id=\"${i}s\" placeholder="piano">
+                    <option value="1">piano</option>
+                    <option value="2">guitar</option>
+                </select>
+                </p><br/></td><td><p>rate it</td></p></tr>`;
+            return content;
+        }
 
         function MinPecas(str){
             if (this.value === '1'){
                 var i = parseInt(str.currentTarget.myParam);
                 var source = document.getElementById(i.toString());
                 var audio = document.getElementById(i.toString() + 'a');
-                source.src = port + substr[i];
+                source.src = port + substr[i] + "-piyano.wav";
                 audio.load();
             }
             if (this.value === '2'){
                 var i = parseInt(str.currentTarget.myParam);
                 var source = document.getElementById(i.toString());
                 var audio = document.getElementById(i.toString() + 'a');
-                source.src = port + substr2[i];
+                source.src = port + substr[i] + "-gitar.wav";
                 audio.load();
             }
         }
@@ -94,6 +120,62 @@ HOME
             someInput.myParam = i.toString();
             someInput.addEventListener('change', MinPecas, false);
         }
+
+        function sorting(){
+            if (this.value === '1'){
+                for(i=0; i<totalLen; ++i){
+                    document.getElementById(i.toString() + "_name").text = substr[i];
+                    document.getElementById(i.toString() + "_genre").text = genreSub[i];
+                    var source = document.getElementById(i.toString());
+                    var audio = document.getElementById(i.toString() + 'a');
+                    source.src = port + substr[i] + "-piyano.wav";
+                    audio.load();
+                }
+            }
+            if (this.value === '2'){
+                var j = 0;
+                for(i=totalLen-1; i>=0; --i){
+                    document.getElementById(j.toString() + "_name").innerHTML = substr[i];
+                    document.getElementById(j.toString() + "_genre").innerHTML = genreSub[i];
+                    var source = document.getElementById(j.toString());
+                    var audio = document.getElementById(j.toString() + 'a');
+                    source.src = port + substr[i] + "-piyano.wav";
+                    audio.load();
+                    j++;
+                }
+            }
+        }
+
+        function sort_by_genre(){
+            if (this.value === '1'){
+                var Parent = document.getElementById("musics");
+                while(Parent.childNodes.length > 1)
+                {
+                    console.log("g\n");
+                    Parent.removeChild(Parent.childNodes[1]);
+                    var Parent = document.getElementById("musics");
+                }
+                start();
+            }
+            if (this.value === '2'){
+                var Parent = document.getElementById("musics");
+                while(Parent.childNodes.length > 1)
+                {
+                    console.log("g\n");
+                    Parent.removeChild(Parent.childNodes[1]);
+                    var Parent = document.getElementById("musics");
+                }
+
+                var content = "";
+                for(i=totalLen-1; i>=0; --i){
+                    content += add_elements(i);
+                }
+                $('#musics tr:last').after(content);
+            }
+        }
+
+        document.getElementById("sortby").addEventListener('change', sorting);
+        document.getElementById("by_genre").addEventListener('change', sort_by_genre);
 
     });
 </script>
