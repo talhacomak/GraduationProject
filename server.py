@@ -68,7 +68,7 @@ def login():
                         return render_template('doctor.html', display="none")
                     else:  ###################################### hatalı şifre
                         render_template("login.html")
-    return render_template("home.html")
+    return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -93,7 +93,7 @@ def register():
         else:
             return render_template("register.html")
         return redirect(url_for("login"))
-    return render_template("home.html")
+    return render_template("register.html")
 
 @app.route("/save_leads", methods=["GET", "POST"])
 def save_leads():
