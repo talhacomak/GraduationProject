@@ -8,7 +8,6 @@ DSN_tc = {'user': "postgres",
            'database': "dummy"
            }
 
-#  postgres//user:pw@host:port/database
 
 tc_connection_url = "dbname={} user={} password={} host={} port={}".format(DSN_tc['database'], DSN_tc['user'],
                                                                            DSN_tc['password'], DSN_tc['host'],

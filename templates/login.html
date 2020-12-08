@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block TITLE %}
-LOGIN
+Login
 {% endblock %}
 	
 {% block body %} 	
@@ -25,7 +25,7 @@ LOGIN
             </div>
         </div>
     </div>
-<input type="hidden" id="is_valid" name="is_valid" value="{{ is_valid }}">
+<input type="hidden" id="alert" name="alert" value="{{alert}}">
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -35,9 +35,10 @@ LOGIN
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        var is_valid = 0;
-        var is_valid = document.getElementById("is_valid").value;
-        if(is_valid === 0) {
+        var is_alert = 0;
+        var is_alert = document.getElementById("alert").value;
+        is_alert = parseInt(is_alert);
+        if(is_alert === 1) {
             alert("wrong user name or password!");
         }
     });

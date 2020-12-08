@@ -16,12 +16,11 @@ def queryToString(s):
 def queryIntToString(s):
     str1 = ""
     for e in s:
-        str1 += str(e[0]);
+        str1 += str(e[0])
         str1 += ','
     return str1[:-1]
 
 @app.route("/")
-@app.route("/Exit/",  methods=['GET', 'POST'])
 def home_page():
     state = "SELECT ALL SONG FROM MUSICS"
     with dbapi2.connect(db_url) as connection:
@@ -48,6 +47,8 @@ def home_page():
 def login():
     if request.method == "POST":
         uname = request.form["uname"]
+        if uname == "":
+            return render_template("login.html", alert=0)
         passw = request.form["passw"]
         tup = (uname,)
         state = "SELECT ID, ISADMIN, PASSWORD FROM USERS WHERE USERNAME=%s"
@@ -61,14 +62,16 @@ def login():
                         session["is_admin"] = "yes"
                         return redirect(url_for("admin_page"))
                     else: ###################################### hatalı şifre
-                        render_template("login.html")
+                        return render_template("login.html", alert = 1)
                 else: # user
-                    if hasher.verify(passw, record[2]):
-                        session["is_doctor"] = "yes"
-                        return render_template('doctor.html', display="none")
+                    if hasher.verify(passw, record[2]):########## doğru şifre
+                        return redirect(url_for("home_page"))
                     else:  ###################################### hatalı şifre
-                        render_template("login.html")
-    return render_template("login.html")
+                        return render_template("login.html", alert = 1)
+            else: ############################################# wrong username
+                return render_template("login.html", alert=1)
+    else:
+        return render_template("login.html", alert = 0)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -91,9 +94,9 @@ def register():
                 cursor.execute(state, (uname, hashed, mail))
                 cursor.close()
         else:
-            return render_template("register.html")
+            return render_template("register.html", alert = 1)
         return redirect(url_for("login"))
-    return render_template("register.html")
+    return render_template("register.html", alert = 0)
 
 @app.route("/save_leads", methods=["GET", "POST"])
 def save_leads():
